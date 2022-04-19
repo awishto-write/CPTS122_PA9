@@ -1,34 +1,73 @@
+#pragma once
+
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include <stdlib.h>
-#include <time.h>
+#include "board.h"
 
-#include "Paddle.h"
-#include "Ball.h"
-
-using std::cout; 
-using std::endl; 
+using std::cout;
+using std::endl;
 
 int main(void)
 {
-	srand(time(NULL)); 
+	// Initialize board: 
+	sf::RenderWindow window(sf::VideoMode(400, 400), "Checkers!");
 
-	sf::RenderWindow window(sf::VideoMode(500, 500), "SFML Works!"); 
-	sf::CircleShape shape(100.f); 
+	Tile board[8][8];
 
-	Paddle p1Paddle(sf::Vector2f(0, 0), sf::Vector2f(50, 100), sf::Color::Magenta),
-		p2Paddle(sf::Vector2f(450, 0), sf::Vector2f(50, 100), sf::Color::Cyan); 
+	sf::Color redTile = sf::Color::Red;
+	sf::Color blackTile = sf::Color::Black;
 
-	Ball gameBall(sf::Vector2f(window.getSize().x / 2, window.getSize().y / 2),
-		p1Paddle.getSize().y / 6, sf::Color::Green); 
+	// Initialize variables: 
+	double xTilePos = 0.0, yTilePos = 0.0;
 
-	shape.setFillColor(sf::Color::Green); 
-	int direction = 1; 
-	double ballVert = 0; 
+	// Construct board: 
+	for (int i = 0; i < 8; ++i)
+	{
+		xTilePos = 0.0;
+		for (int j = 0; j < 8; ++j)
+		{
+			if (i % 2 == 0)
+			{
+				if (j % 2 == 0)
+				{
+					board[j][i].setColor(redTile); 
+				}
+
+				else
+				{
+					board[j][i].setColor(blackTile); 
+				}
+			}
+
+			else
+			{
+				if (j % 2 == 0)
+				{
+					board[j][i].setColor(blackTile); 
+				}
+
+				else
+				{
+					board[j][i].setColor(redTile); 
+				}
+			}
+
+			board[j][i].setPosition(xTilePos, yTilePos); 
+			xTilePos += 50; 
+		}
+
+		yTilePos += 50; 
+
+	}
+	 
+
+	double xPos = 0.0, yPos = 0.0; 
 
 	while (window.isOpen())
 	{
-		sf::Event event;
+		sf::Event event; 
+
+		// Check if window needs to be closed: 
 		while (window.pollEvent(event))
 		{
 			if (event.type == sf::Event::Closed)
@@ -37,62 +76,27 @@ int main(void)
 			}
 		}
 
-		// Player 1 Paddle control: 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+		// Detection of click: 
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
-			p1Paddle.move(0, 0.03); 
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-		{
-			p1Paddle.move(0, -0.03); 
-		}
+			xPos = sf::Mouse::getPosition(window).x; 
+			yPos = sf::Mouse::getPosition(window).y; 
 
-		// Player 2 Paddle control: 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-		{
-			p2Paddle.move(0, 0.03); 
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-		{
-			p2Paddle.move(0, -0.03); 
+			cout << xPos << " " <<  yPos << endl;
 		}
 
-		// Collisions: 
-		if (p2Paddle.getGlobalBounds().intersects(gameBall.getGlobalBounds()))
-		{
-			direction *= -1; 
-
-			// Set random height value: 
-			ballVert = double(rand() % 2) / 100;
-		}
-		if (p1Paddle.getGlobalBounds().intersects(gameBall.getGlobalBounds()))
-		{
-			direction *= -1; 
-
-			// Set random height value: 
-			ballVert = double(rand() % 2) / 100;
-		}
-
-		// Move ball: 
-		gameBall.move(0.03 * direction, ballVert); 
-
+		// Window commands: 
 		window.clear(); 
-		window.draw(p1Paddle); 
-		window.draw(p2Paddle); 
-		window.draw(gameBall); 
+		
+		// Draw board:
+		for (int i = 0; i < 8; ++i)
+		{
+			for (int j = 0; j < 8; ++j)
+			{
+				window.draw(board[j][i]); 
+			}
+		}
+
 		window.display(); 
-
-		//// Check bounds: 
-		//if (gameBall.getPosition().x > 500)
-		//{
-		//	cout << "Player 1 Wins!" << endl; 
-		//	window.close(); 
-		//}
-		//if (gameBall.getPosition().x < 0)
-		//{
-		//	cout << "Player 2 Wins!" << endl; 
-		//	window.close(); 
-		//}
 	}
-
 }
