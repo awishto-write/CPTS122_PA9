@@ -15,8 +15,10 @@ void Setting(sf::RenderWindow& window, Ball* BluePieces, Ball* WhitePieces)
 	
 	int k = 0;
 	for (int i = 0;i < 3;i++)
-	{
-		for (int j = (int)!(i % 2 & 1);j < 8;j += 2)
+	{    
+		// We used the (!) to make sure that the position of the white pieces differ from the blue pieces
+		
+		for (int j = (int)!(i % 2);j < 8;j += 2)
 		{
 			WhitePieces[k].isAlive = true;
 			WhitePieces[k].x = j;
@@ -31,7 +33,7 @@ void Setting(sf::RenderWindow& window, Ball* BluePieces, Ball* WhitePieces)
 	k = 0;
 	for (int i = 0;i < 3;i++)
 	{
-		for (int j = (int)(i % 2 & 1);j < 8;j += 2)
+		for (int j = (int)(i % 2);j < 8;j += 2)
 		{
 			BluePieces[k].isAlive = true;
 			BluePieces[k].x = j;
