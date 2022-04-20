@@ -3,9 +3,46 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "board.h"
+#include "piece.h"
 
 using std::cout;
 using std::endl;
+
+         // Setting the pieces to their position on each square of the board
+void Setting(sf::RenderWindow& window, Ball* BluePieces, Ball* WhitePieces)
+{
+                 // For the color white
+	
+	int k = 0;
+	for (int i = 0;i < 3;i++)
+	{
+		for (int j = (int)!(i % 2 & 1);j < 8;j += 2)
+		{
+			WhitePieces[k].isAlive = true;
+			WhitePieces[k].x = j;
+			WhitePieces[k].y = i;
+			k++;
+		}
+
+	}
+	
+	      // For the color blue
+
+	k = 0;
+	for (int i = 0;i < 3;i++)
+	{
+		for (int j = (int)(i % 2 & 1);j < 8;j += 2)
+		{
+			BluePieces[k].isAlive = true;
+			BluePieces[k].x = j;
+			BluePieces[k].y = 7 - i;
+			k++;
+		}
+
+	}
+}
+
+
 
 int main(void)
 {
@@ -17,6 +54,22 @@ int main(void)
 	sf::Color redTile = sf::Color::Red;
 	sf::Color blackTile = sf::Color::Black;
 
+       
+	   // Initialize pieces
+	
+	Ball BluePieces[12];
+	Ball WhitePieces[12];
+
+	for (int i = 0; i < 12; i++)
+	{
+		BluePieces[i].color = sf::Color::Blue;
+		WhitePieces[i].color = sf::Color::White;
+	}
+
+	     //  Placement of the pieces on the board
+	Setting(window, BluePieces, WhitePieces);
+	
+	
 	// Initialize variables: 
 	double xTilePos = 0.0, yTilePos = 0.0;
 
@@ -95,6 +148,13 @@ int main(void)
 			{
 				window.draw(board[j][i]); 
 			}
+		}
+		
+		  // Draw pieces
+		for (int i = 0; i < 12; i++)
+		{
+			WhitePieces[i].Draw(window);
+			BluePieces[i].Draw(window);
 		}
 
 		window.display(); 
