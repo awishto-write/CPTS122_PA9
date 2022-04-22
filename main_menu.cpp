@@ -3,6 +3,7 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include "menu.h"
+#include "game.h"
 
 using std::cout;
 using std::endl;
@@ -147,7 +148,8 @@ int main(void)
 		if (page_number == 0)
 		{
 			sf::RenderWindow window_play(sf::VideoMode(500, 500), "Play", sf::Style::Close);
-
+                         Checkers trying;
+			
 			while (window_play.isOpen())
 			{
 				sf::Event event;
@@ -158,6 +160,13 @@ int main(void)
 				}
 
 				window_play.clear();
+				
+
+				cout << "  The section for 'play' has been selected!" << endl;
+
+				     // Adding the main game
+				trying.gaming();
+				
 				window_play.display();
 			}
 		}
