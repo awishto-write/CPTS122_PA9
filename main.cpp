@@ -15,74 +15,74 @@ int main(void)
 {
 	// Initialize variables: 
 	sf::RenderWindow window(sf::VideoMode(400, 400), "Checkers!");
-	Board gameBoard; 
+	Board gameBoard;
 	sf::Color redTile = sf::Color::Red;
 	sf::Color blackTile = sf::Color::Black;
-	sf::Color active = sf::Color::Yellow; 
+	sf::Color active = sf::Color::Yellow;
 	double xPos = 0.0, yPos = 0.0;
-	bool occupiedTest = false; 
+	bool occupiedTest = false;
 	Token BluePieces[12];
 	Token WhitePieces[12];
-	double xTokenPos = 10, yTokenPos = 10; 
-	
+	double xTokenPos = 10, yTokenPos = 10;
+
 	// Set player turn: 
-	int playerTurn = BLUE_PLAYER; 
-	
+	int playerTurn = BLUE_PLAYER;
+
 	// Set blue piece location: 
 	for (int i = 0; i < 12; ++i)
 	{
 		// Set location: 
-		BluePieces[i].setPosition(xTokenPos, yTokenPos); 
-		BluePieces[i].setXLocation(xTokenPos); 
-		BluePieces[i].setYLocation(yTokenPos); 
-	
+		BluePieces[i].setPosition(xTokenPos, yTokenPos);
+		BluePieces[i].setXLocation(xTokenPos);
+		BluePieces[i].setYLocation(yTokenPos);
+
 		// Move X location: 
-		xTokenPos += 100.0; 
-	
+		xTokenPos += 100.0;
+
 		// If reaching maximum: 
 		if ((i + 1) % 4 == 0)
 		{
 			// Move back to start of row; 
-			xTokenPos = 10; 
-	
+			xTokenPos = 10;
+
 			if ((i + 1) == 4)
 			{
 				// Offset tokens: 
-				xTokenPos = 60; 
+				xTokenPos = 60;
 			}
-	
+
 			// Move to next row: 
-			yTokenPos += 50.0; 
+			yTokenPos += 50.0;
 		}
 	}
 
 	// Set token position for tokens on other side of board: 
-	yTokenPos = 260, xTokenPos = 60; 
+	yTokenPos = 260, xTokenPos = 60;
 
 	// Set white piece location: 
 	for (int i = 0; i < 12; ++i)
 	{
 		// Set location: 
-		WhitePieces[i].setPosition(xTokenPos, yTokenPos); 
-		WhitePieces[i].setXLocation(xTokenPos); 
-		WhitePieces[i].setYLocation(yTokenPos); 
+		WhitePieces[i].setPosition(xTokenPos, yTokenPos);
+		WhitePieces[i].setXLocation(xTokenPos);
+		WhitePieces[i].setYLocation(yTokenPos);
 
 		// Move X Location: 
-		xTokenPos += 100; 
+		xTokenPos += 100;
 
 		if ((i + 1) % 4 == 0)
 		{
 			// Move back to start of row: 
-			xTokenPos = 60; 
+			xTokenPos = 60;
 
 			if ((i + 1) == 4)
 			{
 				// Offset for middle row: 
-				xTokenPos = 10; 
+				xTokenPos = 10;
 			}
 
 			// Move to next row: 
-			yTokenPos += 50; 
+			yTokenPos += 50;
 		}
 	}
 
@@ -109,41 +109,41 @@ int main(void)
 			}
 		}
 
+		// Blue player turn: 
 		if (playerTurn == BLUE_PLAYER)
 		{
-			// Detection of click: 
-			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			cout << "Blue Player's Turn!" << endl; 
+
+			if (event.type == sf::Event::MouseButtonReleased)
 			{
-				xPos = sf::Mouse::getPosition(window).x;
-				yPos = sf::Mouse::getPosition(window).y;
+				// Get position of click: 
+				xPos = sf::Mouse::getPosition(window).x; 
+				yPos = sf::Mouse::getPosition(window).y; 
 
 				int vectRow = 0, vectCol = 0;
+				bool firstRun = true; 
+				int dummyX2 = 30, dummyY2 = 30; 
 
-				bool firstRun = true;
+				// Set array values: 
+				vectRow = yPos / 50; 
+				vectCol = xPos / 50; 
 
-				// Get matrix locations: 
-				vectCol = xPos / 50;
-				vectRow = yPos / 50;
-
-
+				// Check if user clicked a specific token: 
 				for (int i = 0; i < 12; ++i)
 				{
-					// Initialize variables: 
-					int dummy = int(BluePieces[i].getXLocation()) / 50;
-					int dummy2 = int(BluePieces[i].getYLocation()) / 50;
-					bool live = false;
-					bool firstRun = true;
-					int activeVectRow = 0;
+					int dummyX = int(BluePieces[i].getXLocation()) / 50;
+					int dummyY = int(BluePieces[i].getYLocation()) / 50; 
 
-					// Set piece to active: 
-					if (vectRow == dummy2 && vectCol == dummy)
+					// Check for clicking: 
+					if (vectRow == dummyY && vectCol == dummyX)
 					{
-						// Change fill color to yellow: 
-						BluePieces[i].setFillColor(active);
+						// Change fill color: 
+						BluePieces[i].setFillColor(active); 
 
+						// Redraw window: 
 						window.clear();
 
-						//// Draw board:
+						// Draw board:
 						for (int i = 0; i < 8; ++i)
 						{
 							for (int j = 0; j < 8; ++j)
@@ -161,83 +161,81 @@ int main(void)
 
 						window.display();
 
-						// Infinite loop until key is unpressed: 
-						while (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+						// Get another click from the user: 
+						while (!sf::Mouse::isButtonPressed(sf::Mouse::Left))
 						{
-							;
+							; 
 						}
 
-						// Move piece: 
-						while (!sf::Mouse::isButtonPressed(sf::Mouse::Left))
+						while (dummyY2 != (dummyY + 1) && (dummyX2 != dummyX))
 						{
 							if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 							{
-								//// Get location of click: 
-								//double newXPos = sf::Mouse::getPosition(window).x; 
-								//double newYPos = sf::Mouse::getPosition(window).y; 
-								//int dummy3 = int(newXPos) / 50; 
-								//cout << dummy3 << endl; 
+								// Get second click location: 
+								xPos = sf::Mouse::getPosition(window).x;
+								yPos = sf::Mouse::getPosition(window).y;
 
-								//if (newYPos == (yPos + 1) && newXPos == xPos)
-								//{
-								BluePieces[i].move(0, 50);
-								BluePieces[i].setYLocation(BluePieces[i].getYLocation() + 50);
-								BluePieces[i].setFillColor(sf::Color::Blue);
-								//}
-
-								// Change player turn: 
-								playerTurn = WHITE_PLAYER; 
-
-								cout << "White Player's Turn!" << endl;
+								dummyX2 = xPos / 50;
+								dummyY2 = yPos / 50;
 							}
-						}
 
-						while (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+							cout << dummyX2 << " " << dummyY2 << endl;
+						} 
+
+						// Check if piece can be moved: 
+						if ((dummyX == dummyX2) && (dummyY == dummyY2 - 1))
 						{
-							;
+							BluePieces[i].move(0, 50);
+							BluePieces[i].setFillColor(sf::Color::Blue);
+
+							BluePieces[i].setYLocation(BluePieces[i].getYLocation() + 50); 
 						}
 
+						cout << "Ended" << endl;
+
+						// Switch user:
+						playerTurn = WHITE_PLAYER;
 					}
 				}
+			} 
 
-			}
 		}
 
+		// White Player's turn: 
 		if (playerTurn == WHITE_PLAYER)
 		{
-			// Detection of click: 
-			if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			cout << "White Player's Turn!" << endl;
+
+			if (event.type == sf::Event::MouseButtonReleased)
 			{
+				// Get position of click: 
 				xPos = sf::Mouse::getPosition(window).x;
 				yPos = sf::Mouse::getPosition(window).y;
 
 				int vectRow = 0, vectCol = 0;
-
 				bool firstRun = true;
+				int dummyX2 = 30, dummyY2 = 30;
 
-				// Get matrix locations: 
-				vectCol = xPos / 50;
+				// Set array values: 
 				vectRow = yPos / 50;
+				vectCol = xPos / 50;
 
-
+				// Check if user clicked a specific token: 
 				for (int i = 0; i < 12; ++i)
 				{
-					// Initialize variables: 
-					int dummy = int(WhitePieces[i].getXLocation()) / 50;
-					int dummy2 = int(WhitePieces[i].getYLocation()) / 50;
-					bool live = false;
-					bool firstRun = true;
-					int activeVectRow = 0;
+					int dummyX = int(WhitePieces[i].getXLocation()) / 50;
+					int dummyY = int(WhitePieces[i].getYLocation()) / 50;
 
-					// Set piece to active: 
-					if (vectRow == dummy2 && vectCol == dummy)
+					// Check for clicking: 
+					if (vectRow == dummyY && vectCol == dummyX)
 					{
-						// Change fill color to yellow: 
+						// Change fill color: 
 						WhitePieces[i].setFillColor(active);
 
+						// Redraw window: 
 						window.clear();
 
-						//// Draw board:
+						// Draw board:
 						for (int i = 0; i < 8; ++i)
 						{
 							for (int j = 0; j < 8; ++j)
@@ -255,52 +253,43 @@ int main(void)
 
 						window.display();
 
-						// Infinite loop until key is unpressed: 
-						while (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-						{
-							;
-						}
-
-						// Move piece: 
+						// Get another click from the user: 
 						while (!sf::Mouse::isButtonPressed(sf::Mouse::Left))
 						{
-							if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-							{
-								//// Get location of click: 
-								//double newXPos = sf::Mouse::getPosition(window).x; 
-								//double newYPos = sf::Mouse::getPosition(window).y; 
-								//int dummy3 = int(newXPos) / 50; 
-								//cout << dummy3 << endl; 
-
-								//if (newYPos == (yPos + 1) && newXPos == xPos)
-								//{
-								WhitePieces[i].move(0, -50);
-								WhitePieces[i].setYLocation(WhitePieces[i].getYLocation() - 50);
-								WhitePieces[i].setFillColor(sf::Color::White);
-								//}
-
-								// Change player turn: 
-								playerTurn = BLUE_PLAYER;
-
-								cout << "Blue Player's Turn!" << endl; 
-							}
-						}
-
-						while (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-						{
 							;
 						}
 
+						while (dummyY2 != (dummyY - 1) && (dummyX2 != dummyX))
+						{
+							// Get second click location: 
+							xPos = sf::Mouse::getPosition(window).x;
+							yPos = sf::Mouse::getPosition(window).y;
+
+							dummyX2 = xPos / 50;
+							dummyY2 = yPos / 50;
+
+							cout << dummyX2 << " " << dummyY2 << endl;
+						}
+
+						// Check if piece can be moved: 
+						if ((dummyX == dummyX2) && (dummyY == dummyY2 + 1))
+						{
+							WhitePieces[i].move(0, -50);
+							WhitePieces[i].setFillColor(sf::Color::White);
+
+							WhitePieces[i].setYLocation(WhitePieces[i].getYLocation() + 50);
+						}
+
+						cout << "Ended" << endl;
+
+						// Switch user:
+						playerTurn = BLUE_PLAYER;
 					}
 				}
-
 			}
 		}
-		
 
-		//BluePieces[2].move(.01, 0);
-
-		window.clear(); 
+		window.clear();
 
 		//// Draw board:
 		for (int i = 0; i < 8; ++i)
@@ -314,8 +303,8 @@ int main(void)
 		// Draw Pieces: 
 		for (int i = 0; i < 12; ++i)
 		{
-			window.draw(BluePieces[i]); 
-			window.draw(WhitePieces[i]); 
+			window.draw(BluePieces[i]);
+			window.draw(WhitePieces[i]);
 		}
 
 		window.display();
