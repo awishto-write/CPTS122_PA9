@@ -1,8 +1,5 @@
 #pragma once
 
-#define BLUE_PLAYER 0
-#define WHITE_PLAYER 1
-
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "board.h"
@@ -112,7 +109,8 @@ int main(void)
 		// Blue player turn: 
 		if (playerTurn == BLUE_PLAYER)
 		{
-			cout << "Blue Player's Turn!" << endl; 
+			//cout << "Blue Player's Turn!" << endl; 
+			bool moveOn = false;
 
 			if (event.type == sf::Event::MouseButtonReleased)
 			{
@@ -122,6 +120,7 @@ int main(void)
 
 				int vectRow = 0, vectCol = 0;
 				bool firstRun = true; 
+				bool myTurn = true;
 				int dummyX2 = 30, dummyY2 = 30; 
 
 				// Set array values: 
@@ -137,7 +136,7 @@ int main(void)
 					// Check for clicking: 
 					if (vectRow == dummyY && vectCol == dummyX)
 					{
-						// Change fill color: 
+						// Change to active color: 
 						BluePieces[i].setFillColor(active); 
 
 						// Redraw window: 
@@ -167,7 +166,7 @@ int main(void)
 							; 
 						}
 
-						while (dummyY2 != (dummyY + 1) && (dummyX2 != dummyX))
+						while (moveOn == false)
 						{
 							if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 							{
@@ -177,19 +176,120 @@ int main(void)
 
 								dummyX2 = xPos / 50;
 								dummyY2 = yPos / 50;
+
+								// Check if piece can be moved straight: 
+								if ((dummyX == dummyX2) && (dummyY == dummyY2 - 1))
+								{
+									// Space occupied: 
+									if (gameBoard.getOccupied(dummyX2, dummyY2))
+									{
+										cout << "This spot is taken!" << endl;
+									}
+
+									// Space not occupied: 
+									else
+									{
+										// Move piece: 
+										BluePieces[i].move(0, 50);
+										BluePieces[i].setFillColor(sf::Color::Blue);
+
+										// Reallocate piece location: 
+										BluePieces[i].setYLocation(BluePieces[i].getYLocation() + 50);
+
+										// Update occupied board positions: 
+										gameBoard.setNotOccupied(dummyX, dummyY); 
+										gameBoard.setColor(dummyX, dummyY, NO_TOKEN); 
+
+										gameBoard.setOccupied(dummyX2, dummyY2); 
+										gameBoard.setColor(dummyX2, dummyY2, BLUE_PLAYER); 
+
+										moveOn = true;
+									}
+
+								}
+
+								// Check if piece can be moved diagonally right: 
+								if ((dummyX == dummyX2 - 2) && (dummyY == dummyY2 - 2))
+								{
+									// Piece is taken: 
+									if (gameBoard.getOccupied(dummyX2, dummyY2))
+									{
+										cout << "This spot is taken!" << endl; 
+									}
+
+									else if (gameBoard.getColor(dummyX2 - 1, dummyY2 - 1) != WHITE_PLAYER)
+									{
+										cout << "NO Whites here" << endl; 
+									}
+
+									// Piece not taken: 
+									else
+									{
+										// Move piece: 
+										BluePieces[i].move(100, 100);
+										BluePieces[i].setFillColor(sf::Color::Blue);
+
+										// Set new piece location: 
+										BluePieces[i].setYLocation(BluePieces[i].getYLocation() + 100);
+										BluePieces[i].setXLocation(BluePieces[i].getXLocation() + 100);
+
+										moveOn = true;
+
+										// Update occupied board logic: 
+										gameBoard.setNotOccupied(dummyX, dummyY);
+										gameBoard.setColor(dummyX, dummyY, NO_TOKEN); 
+
+										gameBoard.setOccupied(dummyX2, dummyY2);
+										gameBoard.setColor(dummyX2, dummyY2, BLUE_PLAYER); 
+									}
+
+								}
+
+								// Check if piece can be moved diagonally left: 
+								if ((dummyX == dummyX2 + 2) && (dummyY == dummyY2 - 2))
+								{
+									// Tile occupied: 
+									if (gameBoard.getOccupied(dummyX2, dummyY2))
+									{
+										cout << "This spot is taken!" << endl; 
+									}
+
+									else if (gameBoard.getColor(dummyX2 + 1, dummyY2 - 1) != WHITE_PLAYER)
+									{
+										cout << "NO Whites here" << endl;
+									}
+
+									// Tile not occupied: 
+									else
+									{
+										// Move piece: 
+										BluePieces[i].move(-100, 100);
+										BluePieces[i].setFillColor(sf::Color::Blue);
+
+										// Set new piece location: 
+										BluePieces[i].setYLocation(BluePieces[i].getYLocation() + 100);
+										BluePieces[i].setXLocation(BluePieces[i].getXLocation() - 100);
+
+										moveOn = true;
+
+										// Update tile occupied status: 
+										gameBoard.setNotOccupied(dummyX, dummyY);
+										gameBoard.setColor(dummyX, dummyY, NO_TOKEN); 
+
+										gameBoard.setOccupied(dummyX2, dummyY2);
+										gameBoard.setColor(dummyX2, dummyY2, BLUE_PLAYER); 
+									}
+								}
+
+								// Deselecting piece: 
+								if ((dummyX == dummyX2) && (dummyY == dummyY2))
+								{
+
+								}
 							}
 
 							cout << dummyX2 << " " << dummyY2 << endl;
 						} 
-
-						// Check if piece can be moved: 
-						if ((dummyX == dummyX2) && (dummyY == dummyY2 - 1))
-						{
-							BluePieces[i].move(0, 50);
-							BluePieces[i].setFillColor(sf::Color::Blue);
-
-							BluePieces[i].setYLocation(BluePieces[i].getYLocation() + 50); 
-						}
 
 						cout << "Ended" << endl;
 
@@ -204,7 +304,8 @@ int main(void)
 		// White Player's turn: 
 		if (playerTurn == WHITE_PLAYER)
 		{
-			cout << "White Player's Turn!" << endl;
+			//cout << "Blue Player's Turn!" << endl;
+			bool moveOn = false;
 
 			if (event.type == sf::Event::MouseButtonReleased)
 			{
@@ -259,25 +360,123 @@ int main(void)
 							;
 						}
 
-						while (dummyY2 != (dummyY - 1) && (dummyX2 != dummyX))
+						while (moveOn == false)
 						{
-							// Get second click location: 
-							xPos = sf::Mouse::getPosition(window).x;
-							yPos = sf::Mouse::getPosition(window).y;
+							if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+							{
+								// Get second click location: 
+								xPos = sf::Mouse::getPosition(window).x;
+								yPos = sf::Mouse::getPosition(window).y;
 
-							dummyX2 = xPos / 50;
-							dummyY2 = yPos / 50;
+								dummyX2 = xPos / 50;
+								dummyY2 = yPos / 50;
+
+								// Check if piece can be moved straight: 
+								if ((dummyX == dummyX2) && (dummyY == dummyY2 + 1))
+								{
+									// If tile is occupied: 
+									if (gameBoard.getOccupied(dummyX2, dummyY2))
+									{
+										cout << "This spot is taken!"  << endl;
+									}
+
+									// Tile not occupied: 
+									else
+									{
+										// Move piece: 
+										WhitePieces[i].move(0, -50);
+										WhitePieces[i].setFillColor(sf::Color::White);
+
+										// Set new tile location: 
+										WhitePieces[i].setYLocation(WhitePieces[i].getYLocation() - 50);
+
+										// Update board occupied status: 
+										gameBoard.setNotOccupied(dummyX, dummyY);
+										gameBoard.setColor(dummyX, dummyY, NO_TOKEN); 
+
+										gameBoard.setOccupied(dummyX2, dummyY2);
+										gameBoard.setColor(dummyX2, dummyY2, WHITE_PLAYER); 
+
+										moveOn = true;
+									}
+								}
+
+								// Check if piece can be moved diagonally: 
+								if ((dummyX == dummyX2 + 2) && (dummyY == dummyY2 + 2))
+								{
+									// Tile occupied: 
+									if (gameBoard.getOccupied(dummyX2, dummyY2))
+									{
+										cout << "This spot is taken!" << endl; 
+									}
+
+									else if (gameBoard.getColor(dummyX2 + 1, dummyY2 + 1) != BLUE_PLAYER)
+									{
+										cout << "No blues here" << endl; 
+									}
+
+									// Tile not occupied: 
+									else
+									{
+										// Move piece: 
+										WhitePieces[i].move(-100, -100);
+										WhitePieces[i].setFillColor(sf::Color::White);
+
+										// Set new piece location: 
+										WhitePieces[i].setYLocation(WhitePieces[i].getYLocation() - 100);
+										WhitePieces[i].setXLocation(WhitePieces[i].getXLocation() - 100);
+
+										moveOn = true;
+
+										// Update board occupied status: 
+										gameBoard.setNotOccupied(dummyX, dummyY);
+										gameBoard.setColor(dummyX, dummyY, NO_TOKEN); 
+
+										gameBoard.setOccupied(dummyX2, dummyY2);
+										gameBoard.setColor(dummyX2, dummyY2, WHITE_PLAYER); 
+									}
+
+
+								}
+
+								// Check if piece moved diagonally: 
+								if ((dummyX == dummyX2 - 2) && (dummyY == dummyY2 + 2))
+								{
+									if (gameBoard.getOccupied(dummyX2, dummyY2))
+									{
+										cout << "This spot is taken!" << endl; 
+									}
+
+									else if (gameBoard.getColor(dummyX2 - 1, dummyY2 + 1) != BLUE_PLAYER)
+									{
+										cout << "NO blues here" << endl; 
+									}
+
+									else
+									{
+										// Move piece: 
+										WhitePieces[i].move(+100, -100);
+										WhitePieces[i].setFillColor(sf::Color::White);
+
+										// Update piece location: 
+										WhitePieces[i].setYLocation(WhitePieces[i].getYLocation() - 100);
+										WhitePieces[i].setXLocation(WhitePieces[i].getXLocation() + 100);
+
+										moveOn = true;
+
+										// Update board occupied status: 
+										gameBoard.setNotOccupied(dummyX, dummyY);
+										gameBoard.setColor(dummyX, dummyY, NO_TOKEN); 
+
+										gameBoard.setOccupied(dummyX2, dummyY2);
+										gameBoard.setColor(dummyX2, dummyY2, WHITE_PLAYER); 
+									}
+
+
+								}
+							}
 
 							cout << dummyX2 << " " << dummyY2 << endl;
-						}
-
-						// Check if piece can be moved: 
-						if ((dummyX == dummyX2) && (dummyY == dummyY2 + 1))
-						{
-							WhitePieces[i].move(0, -50);
-							WhitePieces[i].setFillColor(sf::Color::White);
-
-							WhitePieces[i].setYLocation(WhitePieces[i].getYLocation() + 50);
 						}
 
 						cout << "Ended" << endl;
@@ -291,7 +490,7 @@ int main(void)
 
 		window.clear();
 
-		//// Draw board:
+		// Draw board:
 		for (int i = 0; i < 8; ++i)
 		{
 			for (int j = 0; j < 8; ++j)
