@@ -178,7 +178,7 @@ int main(void)
 								dummyY2 = yPos / 50;
 
 								// Check if piece can be moved straight: 
-								if ((dummyX == dummyX2) && (dummyY == dummyY2 - 1))
+								if ((dummyX == dummyX2 - 1) && (dummyY == dummyY2 - 1))
 								{
 									// Space occupied: 
 									if (gameBoard.getOccupied(dummyX2, dummyY2))
@@ -190,11 +190,12 @@ int main(void)
 									else
 									{
 										// Move piece: 
-										BluePieces[i].move(0, 50);
+										BluePieces[i].move(50, 50);
 										BluePieces[i].setFillColor(sf::Color::Blue);
 
 										// Reallocate piece location: 
 										BluePieces[i].setYLocation(BluePieces[i].getYLocation() + 50);
+										BluePieces[i].setXLocation(BluePieces[i].getXLocation() + 50); 
 
 										// Update occupied board positions: 
 										gameBoard.setNotOccupied(dummyX, dummyY); 
@@ -202,6 +203,37 @@ int main(void)
 
 										gameBoard.setOccupied(dummyX2, dummyY2); 
 										gameBoard.setColor(dummyX2, dummyY2, BLUE_PLAYER); 
+
+										moveOn = true;
+									}
+
+								}
+
+								if ((dummyX == dummyX2 + 1) && (dummyY == dummyY2 - 1))
+								{
+									// Space occupied: 
+									if (gameBoard.getOccupied(dummyX2, dummyY2))
+									{
+										cout << "This spot is taken!" << endl;
+									}
+
+									// Space not occupied: 
+									else
+									{
+										// Move piece: 
+										BluePieces[i].move(-50, 50);
+										BluePieces[i].setFillColor(sf::Color::Blue);
+
+										// Reallocate piece location: 
+										BluePieces[i].setYLocation(BluePieces[i].getYLocation() + 50);
+										BluePieces[i].setXLocation(BluePieces[i].getXLocation() - 50); 
+
+										// Update occupied board positions: 
+										gameBoard.setNotOccupied(dummyX, dummyY);
+										gameBoard.setColor(dummyX, dummyY, NO_TOKEN);
+
+										gameBoard.setOccupied(dummyX2, dummyY2);
+										gameBoard.setColor(dummyX2, dummyY2, BLUE_PLAYER);
 
 										moveOn = true;
 									}
@@ -372,7 +404,7 @@ int main(void)
 								dummyY2 = yPos / 50;
 
 								// Check if piece can be moved straight: 
-								if ((dummyX == dummyX2) && (dummyY == dummyY2 + 1))
+								if ((dummyX == dummyX2 + 1) && (dummyY == dummyY2 + 1))
 								{
 									// If tile is occupied: 
 									if (gameBoard.getOccupied(dummyX2, dummyY2))
@@ -384,11 +416,12 @@ int main(void)
 									else
 									{
 										// Move piece: 
-										WhitePieces[i].move(0, -50);
+										WhitePieces[i].move(-50, -50);
 										WhitePieces[i].setFillColor(sf::Color::White);
 
 										// Set new tile location: 
 										WhitePieces[i].setYLocation(WhitePieces[i].getYLocation() - 50);
+										WhitePieces[i].setXLocation(WhitePieces[i].getXLocation() - 50); 
 
 										// Update board occupied status: 
 										gameBoard.setNotOccupied(dummyX, dummyY);
@@ -396,6 +429,36 @@ int main(void)
 
 										gameBoard.setOccupied(dummyX2, dummyY2);
 										gameBoard.setColor(dummyX2, dummyY2, WHITE_PLAYER); 
+
+										moveOn = true;
+									}
+								}
+
+								if ((dummyX == dummyX2 - 1) && (dummyY == dummyY2 + 1))
+								{
+									// If tile is occupied: 
+									if (gameBoard.getOccupied(dummyX2, dummyY2))
+									{
+										cout << "This spot is taken!" << endl;
+									}
+
+									// Tile not occupied: 
+									else
+									{
+										// Move piece: 
+										WhitePieces[i].move(+50, -50);
+										WhitePieces[i].setFillColor(sf::Color::White);
+
+										// Set new tile location: 
+										WhitePieces[i].setYLocation(WhitePieces[i].getYLocation() - 50);
+										WhitePieces[i].setXLocation(WhitePieces[i].getXLocation() + 50);
+
+										// Update board occupied status: 
+										gameBoard.setNotOccupied(dummyX, dummyY);
+										gameBoard.setColor(dummyX, dummyY, NO_TOKEN);
+
+										gameBoard.setOccupied(dummyX2, dummyY2);
+										gameBoard.setColor(dummyX2, dummyY2, WHITE_PLAYER);
 
 										moveOn = true;
 									}
