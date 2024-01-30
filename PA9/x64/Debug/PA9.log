@@ -1,0 +1,35 @@
+﻿  board.cpp
+\\Mac\Home\Desktop\PA9\PA9\board.cpp(44,45): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+\\Mac\Home\Desktop\PA9\PA9\board.cpp(44,35): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  function.cpp
+\\Mac\Home\Desktop\PA9\PA9\token.h(18,19): warning C4244: 'argument': conversion from 'const double' to 'float', possible loss of data
+\\Mac\Home\Desktop\PA9\PA9\token.h(21,19): warning C4244: 'argument': conversion from 'const double' to 'float', possible loss of data
+\\Mac\Home\Desktop\PA9\PA9\function.cpp(29,40): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+\\Mac\Home\Desktop\PA9\PA9\function.cpp(29,29): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+\\Mac\Home\Desktop\PA9\PA9\function.cpp(60,41): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+\\Mac\Home\Desktop\PA9\PA9\function.cpp(60,30): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+\\Mac\Home\Desktop\PA9\PA9\function.cpp(124,20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+\\Mac\Home\Desktop\PA9\PA9\function.cpp(125,20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+\\Mac\Home\Desktop\PA9\PA9\function.cpp(174,24): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+\\Mac\Home\Desktop\PA9\PA9\function.cpp(175,24): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+\\Mac\Home\Desktop\PA9\PA9\function.cpp(663,20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+\\Mac\Home\Desktop\PA9\PA9\function.cpp(664,20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+\\Mac\Home\Desktop\PA9\PA9\function.cpp(713,24): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+\\Mac\Home\Desktop\PA9\PA9\function.cpp(714,24): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+  main_menu.cpp
+\\Mac\Home\Desktop\PA9\PA9\token.h(18,19): warning C4244: 'argument': conversion from 'const double' to 'float', possible loss of data
+\\Mac\Home\Desktop\PA9\PA9\token.h(21,19): warning C4244: 'argument': conversion from 'const double' to 'float', possible loss of data
+  menu.cpp
+  token.cpp
+\\Mac\Home\Desktop\PA9\PA9\token.h(18,19): warning C4244: 'argument': conversion from 'const double' to 'float', possible loss of data
+\\Mac\Home\Desktop\PA9\PA9\token.h(21,19): warning C4244: 'argument': conversion from 'const double' to 'float', possible loss of data
+  Generating Code...
+  PA9.vcxproj -> \\Mac\Home\Desktop\PA9\x64\Debug\PA9.exe
+  The network name cannot be found.
+  \\Mac\Home\Desktop\PA9\PA9\\Assets\instruction.png
+  \\Mac\Home\Desktop\PA9\PA9\\Assets\music.ogg
+  \\Mac\Home\Desktop\PA9\PA9\\Assets\imageBye.png
+  \\Mac\Home\Desktop\PA9\PA9\\Assets\butchh.png
+  \\Mac\Home\Desktop\PA9\PA9\\Assets\winnerImage.JPG
+  \\Mac\Home\Desktop\PA9\PA9\\Assets\arial.ttf
+  6 File(s) copied
